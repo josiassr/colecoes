@@ -5,10 +5,12 @@ import java.util.Scanner;
 public class ACMEimobiliaria {
     private Condominio condominio;
     private Scanner input;
+    private Clientela clientela;
 
     public ACMEimobiliaria() {
         condominio = new Condominio();
         input = new Scanner(System.in);
+        clientela = new Clientela();
     }
 
     /**
@@ -44,6 +46,15 @@ public class ACMEimobiliaria {
                     break;
                 case 10:
                     alterarEnderecoCasa();
+                    break;
+                case 11:
+                    cadastrarCliente();
+                    break;
+                case 12:
+                    cadastrarCompraCasa();
+                    break;
+                case 13:
+                    listarCasasCompradas();
                     break;
                 case 99:
                     easterEgg();
@@ -189,6 +200,53 @@ public class ACMEimobiliaria {
         condominio.cadastrarCasa(casa);
         casa = new Casa(444, 444.44, "Rua Quatro");
         condominio.cadastrarCasa(casa);
+    }
+
+    private void cadastrarCliente(){
+        System.out.print("Digite o nome do cliente: ");
+        String nome = input.nextLine();
+        clientela.cadastrarCliente(nome);
+        System.out.println("Cliente cadastrado com sucesso.");
+    }
+
+    private void cadastrarCompraCasa(){
+        System.out.print("Digite o endereço da casa a ser comprada: ");
+        String endereco = input.nextLine();
+        Casa casa = condominio.consultarCasaEndereco(endereco);
+        if (casa != null){
+            System.out.print("Digite o nome do cliente comprador: ");
+            String nome = input.nextLine();
+            Cliente comprador = clientela.consultarClientePorNome(nome);
+            if (comprador != null){
+                comprador.comprarCasa(casa);
+                System.out.println("O cliente " + comprador.getNome() + " adquiriu o imóvel da " + casa.getEndereco() + ".");
+            } else {
+                System.out.println("Cliente não encontrado.");
+            }
+        } else {
+            System.out.println("Casa não encontrada.");
+        }
+    }
+
+    private void listarCasasCompradas(){
+        System.out.print("Digite o nome do cliente: ");
+        String nome = input.nextLine();
+        Cliente cliente = clientela.consultarClientePorNome(nome);
+        if (cliente != null){
+            ArrayList<Casa> compradas = cliente.consultarCasasCompradas();
+            if (compradas.isEmpty()){
+                System.out.println("O cliente " + cliente.getNome() + " não possui casa(s).");
+            } else {
+                for (Casa casa : compradas) {
+                    System.out.println("Tamanho: " + casa.getTamanho());
+                    System.out.println("Valor: " + casa.getValor());
+                    System.out.println("Endereco: " + casa.getEndereco());
+                    System.out.println("--------------------------");
+                }
+            }
+        } else {
+            System.out.println("Cliente não encontrado.");
+        }
     }
 
 }
