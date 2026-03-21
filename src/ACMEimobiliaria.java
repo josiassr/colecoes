@@ -44,20 +44,29 @@ public class ACMEimobiliaria {
                 case 5:
                     consultarCasaPorTamanho();
                     break;
-                case 10:
+                case 6:
                     alterarEnderecoCasa();
                     break;
-                case 11:
+                case 7:
                     cadastrarCliente();
                     break;
-                case 12:
+                case 8:
+                    consultarCliente();
+                    break;
+                case 9:
+                    listarClientela();
+                    break;
+                case 10:
                     cadastrarCompraCasa();
                     break;
-                case 13:
+                case 11:
                     listarCasasCompradas();
                     break;
+                case 98:
+                    easterEggCliente();
+                    break;
                 case 99:
-                    easterEgg();
+                    easterEggCasa();
                     break;
                 default:
                     System.out.println("Opcao invalida!");
@@ -76,7 +85,12 @@ public class ACMEimobiliaria {
         System.out.println("[3] Listar todas as casas");
         System.out.println("[4] Remover casas acima de um valor");
         System.out.println("[5] Consultar casas por tamanho");
-        System.out.println("[10] Alterar endereço de uma casa");
+        System.out.println("[6] Alterar endereço de uma casa");
+        System.out.println("[7] Cadastrar um cliente");
+        System.out.println("[8] Consultar cliente");
+        System.out.println("[9] Listar todos os clientes");
+        System.out.println("[10] Cadastrar a compra de uma casa");
+        System.out.println("[11] Listar casas compradas");
         System.out.println("[0] Sair");
     }
 
@@ -160,13 +174,15 @@ public class ACMEimobiliaria {
         double tamanho = input.nextDouble();
         input.nextLine();
         ArrayList<Casa> casasTamanho = condominio.consultarCasaTamanho(tamanho);
-        Casa casa;
-        for(int i = 0; i < casasTamanho.size(); i++){
-            casa = casasTamanho.get(i);
-            System.out.println("Tamanho: " + casa.getTamanho());
-            System.out.println("Valor: " + casa.getValor());
-            System.out.println("Endereço: " + casa.getEndereco());
-            System.out.println("--------------------------");
+        if (casasTamanho.size() == 0)
+            System.out.println("Nenhuma casa encontrada.");
+        else {
+            for (Casa c : casasTamanho){
+                System.out.println("Tamanho: " + c.getTamanho());
+                System.out.println("Valor: " + c.getValor());
+                System.out.println("Endereço: " + c.getEndereco());
+                System.out.println("--------------------------");
+            }
         }
     }
     
@@ -185,12 +201,12 @@ public class ACMEimobiliaria {
         
     }
 
-    /**
-     * Opcao oculta
-     * Pre-cadastra algumas casas
+    /** Opcoes ocultas
+     * 
+     * Pre-cadastrar algumas casas
      */
-    private void easterEgg() {
-        System.out.println("Easter egg!!!");
+    private void easterEggCasa() {
+        System.out.println("Easter egg 2!!!");
         Casa casa;
         casa = new Casa(111, 111.11, "Rua Um");
         condominio.cadastrarCasa(casa);
@@ -202,10 +218,26 @@ public class ACMEimobiliaria {
         condominio.cadastrarCasa(casa);
     }
 
+    /**
+     * pre-cadastrar alguns clientes
+     * 
+     */
+    private void easterEggCliente(){
+        System.out.println("Easter egg 1!!!");
+        Cliente cliente;
+        cliente = new Cliente("Josias");
+        clientela.cadastrarCliente(cliente);
+        cliente = new Cliente("Lorenzo");
+        clientela.cadastrarCliente(cliente);
+        cliente = new Cliente("Marcelo");
+        clientela.cadastrarCliente(cliente);
+    }
+
     private void cadastrarCliente(){
         System.out.print("Digite o nome do cliente: ");
         String nome = input.nextLine();
-        clientela.cadastrarCliente(nome);
+        Cliente cliente = new Cliente(nome);
+        clientela.cadastrarCliente(cliente);
         System.out.println("Cliente cadastrado com sucesso.");
     }
 
@@ -235,7 +267,7 @@ public class ACMEimobiliaria {
         if (cliente != null){
             ArrayList<Casa> compradas = cliente.consultarCasasCompradas();
             if (compradas.isEmpty()){
-                System.out.println("O cliente " + cliente.getNome() + " não possui casa(s).");
+                System.out.println("O cliente " + cliente.getNome() + " não possui casa.");
             } else {
                 for (Casa casa : compradas) {
                     System.out.println("Tamanho: " + casa.getTamanho());
@@ -249,4 +281,21 @@ public class ACMEimobiliaria {
         }
     }
 
+    private void consultarCliente(){
+        System.out.print("Digite o nome do cliente: ");
+        String nome = input.nextLine();
+        Cliente cliente = clientela.consultarClientePorNome(nome);
+        if (cliente == null){
+            System.out.println("Cliente não encontrado.");
+        } else {
+            System.out.println("Cliente " + cliente.getNome() + " encontrado.");
+        }
+    }
+
+    private void listarClientela(){
+        ArrayList<Cliente> clientes = clientela.consultarTodosClientes();
+        for (Cliente cliente : clientes){
+            System.out.println(cliente.getNome() + "\n--------------------");
+        }
+    }
 }

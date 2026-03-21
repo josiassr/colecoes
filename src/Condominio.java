@@ -49,13 +49,12 @@ public class Condominio {
     }
 
     public ArrayList<Casa> consultarCasaTamanho(double tamanho){
-        ArrayList<Casa> aux = new ArrayList<>();
-        Casa casa;
-        for (int i = 0; i < casas.size(); i++){
-            casa = casas.get(i);
-            if (casa.getTamanho() == tamanho) aux.add(casa);
+        ArrayList<Casa> aux = new ArrayList<Casa>();
+        for (Casa c : casas){
+            if (c.getTamanho() == tamanho)
+                aux.add(c);
         }
-
+        
         return aux;
     }
 

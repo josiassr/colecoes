@@ -8,7 +8,8 @@ public class Clientela {
     }
 
     public boolean cadastrarCliente(Cliente c) {
-        return clientes.add(c);
+        clientes.add(c);
+        return true;
     }
 
     public Cliente consultarClientePorNome(String nome) {
@@ -19,5 +20,12 @@ public class Clientela {
         }
         return null;
     }
-       
+    
+    public ArrayList<Cliente> consultarTodosClientes(){
+        ArrayList<Cliente> aux = new ArrayList<Cliente>();
+        for (Cliente cliente : clientes){
+            aux.add(cliente);
+        }
+        return aux;
+    }
 }

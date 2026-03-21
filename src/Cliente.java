@@ -18,7 +18,11 @@ public class Cliente {
 	}
 
 	public ArrayList<Casa> consultarCasasCompradas() {
-		return casas;
+		ArrayList<Casa> aux = new ArrayList<Casa>();
+		for (Casa c : casas){
+			aux.add(c);
+		}
+		return aux;
 	}
 
 }
